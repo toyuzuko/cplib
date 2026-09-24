@@ -43,6 +43,8 @@ Pass an output path as the second argument, or `-` to write to stdout:
 
 ## Verification
 
+Verification uses `online-judge-verify-helper` (`oj-verify`) through `verify.sh`.
+
 ```sh
 ./verify.sh run test/library_checker/unionfind.test.py
 ```
@@ -51,8 +53,11 @@ Run `./verify.sh all` to verify all registered problems.
 Use `./verify.sh -h` for usage examples and options, including per-case time
 limits and parallel execution. Use `./expander.sh -h` for expansion options.
 
-Each verification run saves case verdicts, elapsed times, and peak memory in
-`tmp/verify/<timestamp>/results.json`, with a per-file overview in `summary.md`.
+Each run saves the verdicts, elapsed times, and peak memory reported by the
+underlying `oj test` command in `tmp/verify/<timestamp>/results.json`, with a
+per-file overview in `summary.md`. These are the same measurements used in the
+console output; no additional test run or separate per-case measurement is made.
+Saved times are in seconds, and memory values are converted to MiB.
 Memory measurements require GNU time (`gtime` on macOS). Unavailable measurements
 are recorded as `null`; files skipped by the verification cache are not measured.
 
