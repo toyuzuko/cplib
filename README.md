@@ -30,7 +30,15 @@ assert uf.same(0, 1)
 Expand your solution into a single file for submission:
 
 ```sh
-./expander/cplib-expander.sh main.py main.expanded.py
+./expander.sh main.py
+```
+
+By default, the result is written to `./tmp/main.expanded.py`.
+Pass an output path as the second argument, or `-` to write to stdout:
+
+```sh
+./expander.sh main.py submission.py
+./expander.sh main.py -
 ```
 
 ## Verification
@@ -40,6 +48,13 @@ Expand your solution into a single file for submission:
 ```
 
 Run `./verify.sh all` to verify all registered problems.
+Use `./verify.sh -h` for usage examples and options, including per-case time
+limits and parallel execution. Use `./expander.sh -h` for expansion options.
+
+Each verification run saves case verdicts, elapsed times, and peak memory in
+`tmp/verify/<timestamp>/results.json`, with a per-file overview in `summary.md`.
+Memory measurements require GNU time (`gtime` on macOS). Unavailable measurements
+are recorded as `null`; files skipped by the verification cache are not measured.
 
 ## License
 

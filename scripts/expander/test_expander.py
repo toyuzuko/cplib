@@ -11,11 +11,32 @@ from unittest.mock import patch
 from pathlib import Path
 
 
-ROOT_DIR = Path(__file__).resolve().parents[1]
-EXPANDER_SCRIPT = ROOT_DIR / "expander" / "cplib-expander.sh"
+ROOT_DIR = Path(__file__).resolve().parents[2]
+EXPANDER_SCRIPT = ROOT_DIR / 'expander.sh'
 
 
 class ExpanderIntegrationTest(unittest.TestCase):
+    def test_default_output_from_another_directory(self) -> None:
+        from expand_cplib import resolve_cplib_path
+
+        with patch.dict(os.environ, {}, clear=True), patch('expand_cplib.find_installed_cplib_path', side_effect=AssertionError('Must locate the adjacent library')):
+            self.assertEqual(resolve_cplib_path(ROOT_DIR / 'scripts/expander/expand_cplib.py'), ROOT_DIR / 'cplib')
+        with tempfile.TemporaryDirectory(prefix='cplib-expand-default-') as folder:
+            root = Path(folder)
+            source = root / 'solutions' / 'sample.test.py'
+            source.parent.mkdir()
+            original = 'from cplib.mathematics.utility import sign\nprint(sign(-3))\n'
+            source.write_text(original)
+            result = subprocess.run([str(EXPANDER_SCRIPT), 'solutions/sample.test.py'], cwd=root, capture_output=True, text=True)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertEqual(result.stdout, '')
+            self.assertEqual(source.read_text(), original)
+            output = root / 'tmp' / 'sample.test.expanded.py'
+            self.assertTrue(output.is_file())
+            run = subprocess.run([sys.executable, '-S', str(output)], cwd=root, capture_output=True, text=True)
+            self.assertEqual(run.returncode, 0, run.stderr)
+            self.assertEqual(run.stdout, '-1\n')
+
     def assert_strict_types(self, code: str) -> None:
         with tempfile.TemporaryDirectory(prefix='cplib-expanded-types-') as folder:
             source = Path(folder) / 'expanded.py'
@@ -391,7 +412,7 @@ print(read(), right(), Item.value, Alias.value, current.value)
             self.assertIn('does_not_exist', run.stderr)
             self.assertEqual(output.read_text(), 'previous\n')
             main.write_text('from cplib.mathematics.utility import sign\nprint(sign(-3))\n')
-            expanded = subprocess.run(['bash', str(EXPANDER_SCRIPT), str(main)], capture_output=True, text=True, check=True)
+            expanded = subprocess.run(['bash', str(EXPANDER_SCRIPT), str(main), '-'], capture_output=True, text=True, check=True)
             run = subprocess.run([sys.executable, '-S', '-c', expanded.stdout], capture_output=True, text=True)
             self.assertEqual(run.returncode, 0, run.stderr)
             self.assertEqual(run.stdout, '-1\n')
@@ -412,7 +433,7 @@ print(read(), right(), Item.value, Alias.value, current.value)
             temporary = root / "temp space ' $(touch unexpected)"
             temporary.mkdir()
             path = root / 'main.py'
-            output = root / "output ' with spaces.py"
+            output = root / "new output directory" / "output ' with spaces.py"
             path.write_text('from cplib.mathematics.utility import sign\nprint(sign(3))\n')
             result = subprocess.run(['bash', str(EXPANDER_SCRIPT), str(path), str(output)], cwd=root, env={**os.environ, 'TMPDIR': str(temporary)}, capture_output=True, text=True)
             self.assertEqual(result.returncode, 0, result.stderr)

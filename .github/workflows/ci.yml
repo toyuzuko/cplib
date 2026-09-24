@@ -17,7 +17,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Byte-compile library and expander
-        run: python -m compileall -q cplib expander
+        run: python -m compileall -q cplib scripts/expander
       - name: Import smoke test
         # cplib.tools.fastio is PyPy-only and intentionally excluded.
         run: |
@@ -51,7 +51,7 @@ jobs:
       - name: Check online judge test types in strict mode
         run: uv run --locked pyright test/library_checker test/aoj
       - name: Check expander types in strict mode
-        run: uv run --locked pyright -p expander
+        run: uv run --locked pyright -p scripts/expander
       - name: Import all library modules
         run: |
           uv run --locked python - <<'PY'
@@ -63,7 +63,7 @@ jobs:
                   importlib.import_module('.'.join(path.with_suffix('').parts))
           PY
       - name: Test submission expansion
-        run: uv run --locked python -m unittest discover -s expander -p 'test_*.py'
+        run: uv run --locked python -m unittest discover -s scripts/expander -p 'test_*.py'
       - name: Test local tester failure detection
         run: uv run --locked python -m unittest discover -s test/tools -p 'test_*.py'
       - name: Test library bug regressions

@@ -5,6 +5,7 @@ Expand cplib imports into raw single-file source while preserving the main-body 
 
 from __future__ import annotations
 
+import argparse
 import ast
 import importlib.util
 import os
@@ -663,7 +664,7 @@ def resolve_cplib_path(script_path: Path) -> Path:
 
     candidates: list[Path] = [
         *env_candidates,
-        script_path.resolve().parent.parent,
+        script_path.resolve().parents[2],
     ]
 
     for candidate in candidates:
@@ -682,11 +683,19 @@ def resolve_cplib_path(script_path: Path) -> Path:
 
 
 def main() -> None:
-    if len(sys.argv) not in (2, 3):
-        print('Usage: cplib-expander.sh <input_file> [output_file]', file=sys.stderr)
-        raise SystemExit(1)
-    input_file = Path(sys.argv[1])
-    output_file = Path(sys.argv[2]) if len(sys.argv) == 3 else None
+    parser = argparse.ArgumentParser(prog='expander.sh', description='Expand cplib imports into a standalone Python file.')
+    parser.add_argument('input_file', type=Path, help='Python source file to expand.')
+    parser.add_argument('output_file', nargs='?', help='Output path (default: ./tmp/<input stem>.expanded.py); use - for stdout.')
+    args = parser.parse_args()
+    input_file: Path = args.input_file
+    output: str | None = args.output_file
+    output_file: Path | None
+    if output is None:
+        output_file = Path('tmp') / f'{input_file.stem}.expanded.py'
+    elif output == '-':
+        output_file = None
+    else:
+        output_file = Path(output)
     try:
         expander = CplibExpander(resolve_cplib_path(Path(__file__)))
         raw = expander.generate_minimal_code(str(input_file))
@@ -710,6 +719,7 @@ def main() -> None:
         if output_file is None:
             print(result, end='')
         else:
+            output_file.parent.mkdir(parents=True, exist_ok=True)
             temporary: Path | None = None
             try:
                 with NamedTemporaryFile(mode='w', encoding='utf-8', prefix=output_file.name + '.tmp.', dir=output_file.parent, delete=False) as stream:
