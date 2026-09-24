@@ -1,0 +1,80 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Byte-compile library and expander
+        run: python -m compileall -q cplib expander
+      - name: Import smoke test
+        # cplib.tools.fastio is PyPy-only and intentionally excluded.
+        run: |
+          python - <<'PY'
+          import importlib
+          from pathlib import Path
+
+          for path in sorted(Path('cplib').rglob('*.py')):
+              if 'templates' in path.parts or path.name == '__init__.py':
+                  continue
+              module = '.'.join(path.with_suffix('').parts)
+              if module != 'cplib.tools.fastio':
+                  importlib.import_module(module)
+          PY
+
+  pypy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          version: '0.11.28'
+          enable-cache: true
+      - name: Install PyPy and development tools
+        run: |
+          uv python install
+          uv sync --locked --group dev
+      - name: Check library types in strict mode
+        run: uv run --locked pyright
+      - name: Check online judge test types in strict mode
+        run: uv run --locked pyright test/library_checker test/aoj
+      - name: Check expander types in strict mode
+        run: uv run --locked pyright -p expander
+      - name: Import all library modules
+        run: |
+          uv run --locked python - <<'PY'
+          import importlib
+          from pathlib import Path
+
+          for path in sorted(Path('cplib').rglob('*.py')):
+              if 'templates' not in path.parts and path.name != '__init__.py':
+                  importlib.import_module('.'.join(path.with_suffix('').parts))
+          PY
+      - name: Test submission expansion
+        run: uv run --locked python -m unittest discover -s expander -p 'test_*.py'
+      - name: Test local tester failure detection
+        run: uv run --locked python -m unittest discover -s test/tools -p 'test_*.py'
+      - name: Test library bug regressions
+        run: uv run --locked python -m unittest discover -s test/regression -p 'test_*.py'
+      - name: Check docstring examples
+        run: uv run --locked python scripts/check_docstrings.py
+      - name: Run deterministic local verification
+        run: |
+          for problem in datastructure/interval_set graph/virtual_tree string/lyndon; do
+            (
+              cd "test/local/$problem"
+              uv run --locked python -m cplib.tools.tester -n 100 --random-seed 0 --generator generator.py --naive naive.py --judge judge.py
+            )
+          done

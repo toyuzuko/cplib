@@ -1,0 +1,1 @@
+"""Default exact-output checker."""
