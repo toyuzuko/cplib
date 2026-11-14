@@ -7,8 +7,13 @@ Use `cplib.graph` as the common import entry point for graph and tree APIs. Dire
 - `core`: graph and tree containers; `base`: shared types.
 - `walk`: DFS, cycles, and walks; `reachability`: SCC, DAG order, reachability, and dominators.
 - `lowlink`: undirected decompositions and compressed forests.
+- `planarity`: planarity tests, clockwise embeddings, face boundaries, and weighted dual graphs.
 - `tree`: static tree algorithms; `treedecomp`: decompositions and LCA; `treequery`: queries; `treedp`: rerooting and fixed-root tree DP.
 - `linkcut` and `eulertourtree`: dynamic forests; `toptree`: static and dynamic top-tree DP; `connectivity`: dynamic graph connectivity.
+
+`Namori` and its alias `Pseudotree` require a connected undirected graph with exactly one cycle. `Pseudoforest` also accepts disconnected graphs and tree components; it is the former `Pseudotree` class.
+
+`planar_embedding(graph)` returns a snapshot or `None` for a nonplanar graph. Pass the result to `planar_faces` or `planar_dual`. Half-edge `2*e` follows the original edge endpoints; `2*e+1` reverses them. Face zero is the chosen outer face, shared by disconnected components. Face boundaries can therefore have multiple walks. Dual edges retain original edge IDs and weights. All four planarity operations, including `is_planar`, take `O(n + m)` time and space.
 
 `TopTree` supports dynamic tree DP with a commutative rake monoid, without inverses. `RerootingLinkCutTree` is an alternative when inverses are available. All top-tree variants live in `toptree`:
 
@@ -74,8 +79,8 @@ from cplib.graph import EulerTourTree, HeavyLightDecomposition, LinkCutTree, Sta
 | API | Kind | Signature | Summary | Complexity |
 | --- | --- | --- | --- | --- |
 | `FunctionalGraph` | class | `FunctionalGraph(to: Sequence[int], start_values: Sequence[ValueT] \| None = None, step_values: S…` | Functional graph with cycle decomposition and optional walk aggregation. | Space: O(n) |
-| `Namori` | class | `Namori(graph: Graph)` | Connected undirected graph with exactly one simple cycle. | Space: O(n) |
-| `Pseudotree` | class | `Pseudotree(graph: Graph)` | Undirected graph whose every connected component has at most one cycle. | Space: O(n) |
+| `Namori` | class | `Namori(graph: Graph)` | Connected undirected graph with exactly one simple cycle. | Space: O(n log n) |
+| `Pseudoforest` | class | `Pseudoforest(graph: Graph)` | Undirected graph whose every connected component has at most one cycle. | Space: O(n log n), including binary-lifting tables for branch LCA. |
 | `CactusGraph` | class | `CactusGraph(graph: Graph)` | Undirected cactus graph decomposition. | Space: O(n + m) |
 
 ### `flow.py`
@@ -155,6 +160,17 @@ from cplib.graph import EulerTourTree, HeavyLightDecomposition, LinkCutTree, Sta
 | `bitonic_tsp` | function | `bitonic_tsp(points: list[tuple[float, float]]) -> float` | Return the length of a shortest bitonic tour through planar points. | Time: O(n^2), where ``n`` is ``len(points)``. |
 | `TravelingSalesmanResult` | class | `TravelingSalesmanResult(...)` | Result of one traveling salesman query. | Space: ``O(n)`` |
 | `traveling_salesman_problem` | function | `traveling_salesman_problem(graph: Graph) -> TravelingSalesmanResult` | Solve the traveling salesman problem starting and ending at vertex ``0``. | Time: ``O(m + n^2 2^n)`` |
+
+### `planarity.py`
+
+| API | Kind | Signature | Summary | Complexity |
+| --- | --- | --- | --- | --- |
+| `PlanarEmbeddingResult` | class | `PlanarEmbeddingResult(...)` | Snapshot of a planar embedding with original edge IDs. | Space: O(n + m). |
+| `PlanarFacesResult` | class | `PlanarFacesResult(...)` | Face boundaries and half-edge-to-face mapping of a planar embedding. | Space: O(n + m). |
+| `is_planar` | function | `is_planar(graph: Graph) -> bool` | Return whether an undirected graph admits a planar embedding. | Time: O(n + m), where n and m are the input vertex and edge counts. |
+| `planar_embedding` | function | `planar_embedding(graph: Graph) -> PlanarEmbeddingResult \| None` | Construct a planar embedding of an undirected graph, if one exists. | Time: O(n + m). |
+| `planar_faces` | function | `planar_faces(embedding: PlanarEmbeddingResult) -> PlanarFacesResult` | Enumerate all faces, merging component exteriors into outer face zero. | Time: O(n + m). |
+| `planar_dual` | function | `planar_dual(embedding: PlanarEmbeddingResult) -> Graph` | Build the weighted planar dual, preserving original edge IDs. | Time: O(n + m). |
 
 ### `reachability.py`
 

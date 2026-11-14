@@ -11,6 +11,7 @@ from typing import Generic
 from cplib.graph.lowlink import block_cut_tree
 from cplib.graph.core import Graph, Node
 from cplib.graph.lowlink import analyze_lowlink
+from cplib.graph.planarity import is_planar as is_planar
 from cplib.tools.type import ValueT
 
 
@@ -135,7 +136,7 @@ class _RootedForestData:
 
 
 class _ComponentNamoriAdapter:
-    """Global/local index adapter for embedding Namori inside Pseudotree."""
+    """Global/local index adapter for embedding Namori inside Pseudoforest."""
 
     def __init__(self, graph: Graph, vertices: list[int]) -> None:
         self.global_to_local = {v: i for i, v in enumerate(vertices)}
@@ -624,7 +625,7 @@ class Namori:
     Connected undirected graph with exactly one simple cycle.
 
     The class peels leaves to recover the unique cycle and roots every attached
-    tree at its incident cycle vertex.
+    tree at its incident cycle vertex. ``Pseudotree`` is an alias of this class.
 
     Attributes:
         graph: Original undirected graph.
@@ -650,9 +651,11 @@ class Namori:
         branch_heavy: Heavy child of each vertex, or ``-1``.
 
     Space Complexity:
-        O(n)
+        O(n log n)
 
     Examples:
+        >>> Pseudotree is Namori
+        True
         >>> g = Graph(5)
         >>> g.add_edge(0, 1)
         >>> g.add_edge(1, 2)
@@ -680,10 +683,10 @@ class Namori:
             ValueError: If the graph is directed, disconnected, or not a Namori graph.
 
         Time Complexity:
-            O(n)
+            O(n log n)
 
         Space Complexity:
-            O(n)
+            O(n log n)
 
         Examples:
             >>> g = Graph(4)
@@ -1299,7 +1302,11 @@ class Namori:
         return base + min(cycle_forward, cycle_backward), base + max(cycle_forward, cycle_backward)
 
 
-class Pseudotree:
+Pseudotree = Namori
+"""Alias of Namori: a connected undirected graph with exactly one cycle."""
+
+
+class Pseudoforest:
     """
     Undirected graph whose every connected component has at most one cycle.
 
@@ -1330,7 +1337,7 @@ class Pseudotree:
         branch_heavy: Heavy child of each vertex, or ``-1``.
 
     Space Complexity:
-        O(n)
+        O(n log n), including binary-lifting tables for branch LCA.
 
     Examples:
         >>> g = Graph(7)
@@ -1340,16 +1347,16 @@ class Pseudotree:
         >>> g.add_edge(1, 3)
         >>> g.add_edge(4, 5)
         >>> g.add_edge(5, 6)
-        >>> pt = Pseudotree(g)
-        >>> pt.has_cycle(0)
+        >>> pf = Pseudoforest(g)
+        >>> pf.has_cycle(0)
         True
-        >>> pt.has_cycle(4)
+        >>> pf.has_cycle(4)
         False
     """
 
     def __init__(self, graph: Graph) -> None:
         """
-        Build a pseudotree decomposition from an undirected graph.
+        Build a pseudoforest decomposition from an undirected graph.
 
         Args:
             graph: Undirected graph whose every connected component has at most one cycle.
@@ -1361,7 +1368,7 @@ class Pseudotree:
             ValueError: If the graph is directed or some connected component contains two or more cycles.
 
         Time Complexity:
-            O(n + m)
+            O(n + m + n log n), including branch LCA preprocessing.
 
         Examples:
             >>> g = Graph(6)
@@ -1370,12 +1377,12 @@ class Pseudotree:
             >>> g.add_edge(2, 0)
             >>> g.add_edge(3, 4)
             >>> g.add_edge(4, 5)
-            >>> pt = Pseudotree(g)
-            >>> pt.same_component(3, 5)
+            >>> pf = Pseudoforest(g)
+            >>> pf.same_component(3, 5)
             True
         """
         if graph.is_directed:
-            raise ValueError('Pseudotree requires an undirected graph')
+            raise ValueError('Pseudoforest requires an undirected graph')
         self.graph = graph
         self.n = graph.n
 
@@ -1517,8 +1524,8 @@ class Pseudotree:
 
         Examples:
             >>> g = Graph(2)
-            >>> pt = Pseudotree(g)
-            >>> pt.component_of(1)
+            >>> pf = Pseudoforest(g)
+            >>> pf.component_of(1)
             1
         """
         self._validate_vertex(v)
@@ -1544,8 +1551,8 @@ class Pseudotree:
         Examples:
             >>> g = Graph(3)
             >>> g.add_edge(0, 1)
-            >>> pt = Pseudotree(g)
-            >>> pt.same_component(0, 2)
+            >>> pf = Pseudoforest(g)
+            >>> pf.same_component(0, 2)
             False
         """
         self._validate_vertex(u)
@@ -1573,8 +1580,8 @@ class Pseudotree:
             >>> g.add_edge(0, 1)
             >>> g.add_edge(1, 2)
             >>> g.add_edge(2, 0)
-            >>> pt = Pseudotree(g)
-            >>> pt.has_cycle(1)
+            >>> pf = Pseudoforest(g)
+            >>> pf.has_cycle(1)
             True
         """
         self._validate_vertex(v)
@@ -1601,7 +1608,7 @@ class Pseudotree:
             >>> g.add_edge(0, 1)
             >>> g.add_edge(1, 2)
             >>> g.add_edge(2, 0)
-            >>> Pseudotree(g).component_cycle(0)
+            >>> Pseudoforest(g).component_cycle(0)
             [0, 1, 2]
         """
         self._validate_vertex(v)
@@ -1629,7 +1636,7 @@ class Pseudotree:
             >>> g.add_edge(1, 2)
             >>> g.add_edge(2, 0)
             >>> g.add_edge(1, 3)
-            >>> Pseudotree(g).is_on_cycle(3)
+            >>> Pseudoforest(g).is_on_cycle(3)
             False
         """
         self._validate_vertex(v)
@@ -1658,7 +1665,7 @@ class Pseudotree:
             >>> g.add_edge(1, 2)
             >>> g.add_edge(2, 0)
             >>> g.add_edge(1, 3)
-            >>> Pseudotree(g).cycle_root(3)
+            >>> Pseudoforest(g).cycle_root(3)
             1
         """
         self._validate_vertex(v)
@@ -1691,7 +1698,7 @@ class Pseudotree:
             >>> g.add_edge(1, 2)
             >>> g.add_edge(2, 0)
             >>> g.add_edge(1, 3)
-            >>> Pseudotree(g).hops_to_cycle(3)
+            >>> Pseudoforest(g).hops_to_cycle(3)
             1
         """
         self._validate_vertex(v)
@@ -1727,7 +1734,7 @@ class Pseudotree:
             >>> g.add_edge(2, 0)
             >>> g.add_edge(1, 3)
             >>> g.add_edge(3, 4)
-            >>> Pseudotree(g).same_branch(3, 4)
+            >>> Pseudoforest(g).same_branch(3, 4)
             True
         """
         self._validate_vertex(u)
@@ -1755,8 +1762,8 @@ class Pseudotree:
             >>> g = Graph(3)
             >>> g.add_edge(0, 1)
             >>> g.add_edge(1, 2)
-            >>> pt = Pseudotree(g)
-            >>> pt.is_ancestor_in_branch(0, 2)
+            >>> pf = Pseudoforest(g)
+            >>> pf.is_ancestor_in_branch(0, 2)
             True
         """
         self._validate_vertex(ancestor)
@@ -1783,8 +1790,8 @@ class Pseudotree:
             >>> g = Graph(3)
             >>> g.add_edge(0, 1)
             >>> g.add_edge(1, 2)
-            >>> pt = Pseudotree(g)
-            >>> pt.subtree_range(1)
+            >>> pf = Pseudoforest(g)
+            >>> pf.subtree_range(1)
             (1, 3)
         """
         self._validate_vertex(v)
@@ -1813,8 +1820,8 @@ class Pseudotree:
             >>> g = Graph(3)
             >>> g.add_edge(0, 1)
             >>> g.add_edge(1, 2)
-            >>> pt = Pseudotree(g)
-            >>> pt.branch_path_ranges(0, 2)
+            >>> pf = Pseudoforest(g)
+            >>> pf.branch_path_ranges(0, 2)
             [(0, 3)]
         """
         self._validate_vertex(u)
@@ -1842,7 +1849,7 @@ class Pseudotree:
             >>> g = Graph(3)
             >>> g.add_edge(0, 1)
             >>> g.add_edge(1, 2)
-            >>> Pseudotree(g).branch_lca(1, 2)
+            >>> Pseudoforest(g).branch_lca(1, 2)
             1
         """
         self._validate_vertex(u)
@@ -1873,7 +1880,7 @@ class Pseudotree:
             >>> g.add_edge(1, 2)
             >>> g.add_edge(2, 3)
             >>> g.add_edge(3, 0)
-            >>> Pseudotree(g).cycle_hops(0, 2)
+            >>> Pseudoforest(g).cycle_hops(0, 2)
             2
         """
         self._validate_vertex(u)
@@ -1908,7 +1915,7 @@ class Pseudotree:
             >>> g.add_edge(1, 2, 3)
             >>> g.add_edge(2, 3, 5)
             >>> g.add_edge(3, 0, 7)
-            >>> Pseudotree(g).cycle_dist(0, 2)
+            >>> Pseudoforest(g).cycle_dist(0, 2)
             5
         """
         self._validate_vertex(u)
@@ -1941,7 +1948,7 @@ class Pseudotree:
             >>> g = Graph(3)
             >>> g.add_edge(0, 1)
             >>> g.add_edge(1, 2)
-            >>> Pseudotree(g).hops(0, 2)
+            >>> Pseudoforest(g).hops(0, 2)
             2
         """
         self._validate_vertex(u)
@@ -1979,7 +1986,7 @@ class Pseudotree:
             >>> g = Graph(3)
             >>> g.add_edge(0, 1, 2)
             >>> g.add_edge(1, 2, 5)
-            >>> Pseudotree(g).dist(0, 2)
+            >>> Pseudoforest(g).dist(0, 2)
             7
         """
         self._validate_vertex(u)
@@ -2020,7 +2027,7 @@ class Pseudotree:
             >>> g.add_edge(2, 3)
             >>> g.add_edge(3, 0)
             >>> g.add_edge(1, 4)
-            >>> Pseudotree(g).path_length(4, 3)
+            >>> Pseudoforest(g).path_length(4, 3)
             (3, 3)
         """
         self._validate_vertex(u)
@@ -2060,7 +2067,7 @@ class Pseudotree:
             >>> g.add_edge(2, 0, 10)
             >>> g.add_edge(1, 3, 4)
             >>> g.add_edge(3, 4, 5)
-            >>> Pseudotree(g).weighted_path_length(4, 2)
+            >>> Pseudoforest(g).weighted_path_length(4, 2)
             (12, 21)
         """
         self._validate_vertex(u)

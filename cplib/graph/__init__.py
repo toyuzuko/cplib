@@ -21,7 +21,7 @@ from cplib.graph.counting import (
     kirchhoff_theorem,
 )
 from cplib.graph.eulertourtree import EulerTourTree
-from cplib.graph.families import CactusGraph, FunctionalGraph, Namori, Pseudotree
+from cplib.graph.families import CactusGraph, FunctionalGraph, Namori, Pseudoforest, Pseudotree
 from cplib.graph.flow import (
     BipartiteMatching,
     MaximumFlow,
@@ -81,6 +81,14 @@ from cplib.graph.optimization import (
     minimum_vertex_cover,
     traveling_salesman_problem,
     undirected_chinese_postman_problem,
+)
+from cplib.graph.planarity import (
+    PlanarEmbeddingResult,
+    PlanarFacesResult,
+    is_planar,
+    planar_dual,
+    planar_embedding,
+    planar_faces,
 )
 from cplib.graph.reachability import (
     NodeGroupingResult,
@@ -263,7 +271,14 @@ __all__ = [
     'FunctionalGraph',
     'CactusGraph',
     'Namori',
+    'Pseudoforest',
     'Pseudotree',
+    'is_planar',
+    'PlanarEmbeddingResult',
+    'PlanarFacesResult',
+    'planar_embedding',
+    'planar_faces',
+    'planar_dual',
     'BlockCutTreeResult',
     'BridgeTreeResult',
     'biconnected_components',
