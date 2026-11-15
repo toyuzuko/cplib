@@ -33,6 +33,13 @@
 | --- | --- | --- | --- | --- |
 | `largest_rectangle_area` | function | `largest_rectangle_area(histogram: Sequence[int]) -> int` | Return the largest rectangle area in a histogram. | Time: O(n), where ``n`` is ``len(histogram)``. |
 
+### `nonadjacent.py`
+
+| API | Kind | Signature | Summary | Complexity |
+| --- | --- | --- | --- | --- |
+| `minimum_non_adjacent_sums` | function | `minimum_non_adjacent_sums(values: Sequence[int]) -> list[int]` | Return minimum sums for every feasible non-adjacent selection size. | Time: O(n log(n + 1)), where ``n`` is ``len(values)``. |
+| `maximum_non_adjacent_sums` | function | `maximum_non_adjacent_sums(values: Sequence[int]) -> list[int]` | Return maximum sums for every feasible non-adjacent selection size. | Time: O(n log(n + 1)), where ``n`` is ``len(values)``. |
+
 ### `permutation.py`
 
 | API | Kind | Signature | Summary | Complexity |
