@@ -1,7 +1,15 @@
-from cplib.algorithm.dp import fibonacci_number, matrix_chain_multiplication_cost, minimum_coin_count, optimal_binary_search_tree_cost
+from cplib.algorithm.dp import (
+    aliens_minimize,
+    fibonacci_number,
+    matrix_chain_multiplication_cost,
+    min_plus_convolution_convex_convex,
+    minimum_coin_count,
+    monotone_minima,
+    optimal_binary_search_tree_cost,
+)
 from cplib.algorithm.greedy import fractional_knapsack, greedy_coin_count, huffman_encoded_length, max_non_overlapping_intervals, maximum_profit
-from cplib.algorithm.knapsack import KnapsackItem, KnapsackResult, SubsetSumResult, bounded_knapsack_small_values, knapsack, maximum_subset_sum_at_most_meet_in_the_middle, subset_sum_meet_in_the_middle
-from cplib.sequence.alignment import edit_distance, longest_common_subsequence_length
+from cplib.algorithm.knapsack import subset_sum_bitset, KnapsackItem, KnapsackResult, SubsetSumResult, bounded_knapsack_small_values, knapsack, maximum_subset_sum_at_most_meet_in_the_middle, subset_sum_meet_in_the_middle
+from cplib.sequence.alignment import edit_distance, longest_common_subsequence_length, longest_common_subsequence_length_bitset
 from cplib.sequence.grid import count_rectangles_in_grid, count_squares_in_grid, largest_rectangle_area_in_grid, largest_square_area_in_grid
 from cplib.sequence.histogram import largest_rectangle_area
 from cplib.sequence.subseq import longest_increasing_subsequence, number_of_subsequences
@@ -43,6 +51,10 @@ from cplib.sequence.window import (
 )
 
 __all__ = [
+    'monotone_minima',
+    "min_plus_convolution_convex_convex",
+    "subset_sum_bitset",
+    "longest_common_subsequence_length_bitset",
     'hilbert_order',
     "sum_of_all_pairs_of_xor",
     "number_of_subsequences",
@@ -73,6 +85,7 @@ __all__ = [
     "Mo",
     "HilbertMo",
     "RollbackMo",
+    'aliens_minimize',
     "ParallelBinarySearch",
     "binary_search",
     "float_binary_search",

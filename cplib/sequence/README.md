@@ -10,6 +10,7 @@
 | --- | --- | --- | --- | --- |
 | `edit_distance` | function | `edit_distance(s: Sequence[object], t: Sequence[object], insert_cost: int = 1, delete_cost: int…` | Return the weighted edit distance between two sequences. | Time: O(nm), where ``n = len(s)`` and ``m = len(t)``. |
 | `longest_common_subsequence_length` | function | `longest_common_subsequence_length(s: Sequence[object], t: Sequence[object]) -> int` | Return the length of the longest common subsequence of two sequences. | Time: O(nm), where ``n = len(s)`` and ``m = len(t)``. |
+| `longest_common_subsequence_length_bitset` | function | `longest_common_subsequence_length_bitset(s: Sequence[Hashable], t: Sequence[Hashable]) -> int` | Return an LCS length using bit-parallel DP for hashable elements. | Time: O((n + m) ceil(m / w)) word operations including mask construction, with expected constant-time hashing/equality; ``m`` is the shorter length, ``n`` the longer length, and ``w`` the integer digit width. |
 
 ### `cartesian.py`
 
@@ -68,6 +69,8 @@
 | --- | --- | --- | --- | --- |
 | `longest_increasing_subsequence` | function | `longest_increasing_subsequence(arr: list[int], return_idx: bool = False) -> list[int]` | Return one longest increasing subsequence. | Time: ``O(n log n)`` |
 | `number_of_subsequences` | function | `number_of_subsequences(arr: list[int], mod: int) -> int` | Count distinct subsequences modulo ``mod``. | Time: ``O(n)`` |
+| `minimum_non_adjacent_sums` | function | `minimum_non_adjacent_sums(values: Sequence[int]) -> list[int]` | Return minimum sums for every feasible non-adjacent selection size. | Time: O(n log(n + 1)), where ``n`` is ``len(values)``. |
+| `maximum_non_adjacent_sums` | function | `maximum_non_adjacent_sums(values: Sequence[int]) -> list[int]` | Return maximum sums for every feasible non-adjacent selection size. | Time: O(n log(n + 1)), where ``n`` is ``len(values)``. |
 
 ### `window.py`
 

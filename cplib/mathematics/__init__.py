@@ -12,6 +12,7 @@ from cplib.mathematics.arithmetic import (
 )
 from cplib.mathematics.bigint import BigInt, BigIntHex
 from cplib.mathematics.bit import (
+    XorBasis,
     bit_reverse,
     filllower,
     fillupper,
@@ -114,10 +115,12 @@ from cplib.mathematics.subset import (
 from cplib.mathematics.utility import (
     absolute,
     clamp,
+    floor_sum,
     generate_quotient,
     sign,
     xorshift64,
 )
+
 
 __all__ = [
     'BigInt',
@@ -156,6 +159,7 @@ __all__ = [
     'SternBrocotTree',
     'SubsetConvolution',
     'TwelvefoldWay',
+    'XorBasis',
     'absolute',
     'batch_inverse_mod',
     'berlekamp_massey',
@@ -190,6 +194,7 @@ __all__ = [
     'filllower',
     'fillupper',
     'find_linear_recurrence',
+    'floor_sum',
     'format_bitmask',
     'generate_quotient',
     'interval_intersection',

@@ -71,12 +71,16 @@ from cplib.graph.matching import (
     MinimumWeightPerfectMatching,
 )
 from cplib.graph.optimization import (
+    BinarySubmodularMinimizer,
+    BinarySubmodularResult,
+    MaximumWeightClosureResult,
     MinimumSteinerTreeResult,
     TravelingSalesmanResult,
     bitonic_tsp,
     bounded_vertex_cover,
     maximum_clique,
     maximum_independent_set,
+    maximum_weight_closure,
     minimum_steiner_tree,
     minimum_vertex_cover,
     traveling_salesman_problem,
@@ -103,6 +107,8 @@ from cplib.graph.reachability import (
 from cplib.graph.scheduling import optimal_scheduling_on_dag, optimal_scheduling_on_tree
 from cplib.graph.shortest import (
     ShortestPathResult,
+    zero_one_bfs,
+    zero_one_bfs_with_prev,
     bellman_ford,
     bfs,
     dijkstra,
@@ -179,6 +185,12 @@ __all__ = [
     'radix_dijkstra',
     'radix_dijkstra_with_prev',
     'bfs',
+    'zero_one_bfs',
+    'zero_one_bfs_with_prev',
+    'BinarySubmodularMinimizer',
+    'BinarySubmodularResult',
+    'MaximumWeightClosureResult',
+    'maximum_weight_closure',
     'bellman_ford',
     'ShortestPathResult',
     'shortest_path',

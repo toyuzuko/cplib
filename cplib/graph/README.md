@@ -160,6 +160,10 @@ from cplib.graph import EulerTourTree, HeavyLightDecomposition, LinkCutTree, Sta
 | `bitonic_tsp` | function | `bitonic_tsp(points: list[tuple[float, float]]) -> float` | Return the length of a shortest bitonic tour through planar points. | Time: O(n^2), where ``n`` is ``len(points)``. |
 | `TravelingSalesmanResult` | class | `TravelingSalesmanResult(...)` | Result of one traveling salesman query. | Space: ``O(n)`` |
 | `traveling_salesman_problem` | function | `traveling_salesman_problem(graph: Graph) -> TravelingSalesmanResult` | Solve the traveling salesman problem starting and ending at vertex ``0``. | Time: ``O(m + n^2 2^n)`` |
+| `MaximumWeightClosureResult` | class | `MaximumWeightClosureResult(...)` | Optimal project selection. | Space: O(n) |
+| `maximum_weight_closure` | function | `maximum_weight_closure(profits: Sequence[int], implications: Sequence[tuple[Node, Node]]) -> Ma…` | Maximize selected integer profits subject to hard implications. | Time: O((n + 2)**2 * (n + m)), using Dinic maximum flow. |
+| `BinarySubmodularResult` | class | `BinarySubmodularResult(...)` | Minimum cost and one attaining assignment of bits. | Space: O(n) |
+| `BinarySubmodularMinimizer` | class | `BinarySubmodularMinimizer(n: int)` | Minimize a sum of finite signed integer costs over binary variables. | Space: O(n + m), where m is the number of pairwise terms. |
 
 ### `planarity.py`
 
@@ -199,6 +203,8 @@ from cplib.graph import EulerTourTree, HeavyLightDecomposition, LinkCutTree, Sta
 | --- | --- | --- | --- | --- |
 | `dijkstra_with_prev` | function | `dijkstra_with_prev(graph: Graph, source: Node) -> tuple[list[Weight], list[Node]]` | Run Dijkstra's algorithm and keep predecessor information. | Time: ``O((n + m) log n)`` |
 | `radix_dijkstra_with_prev` | function | `radix_dijkstra_with_prev(graph: Graph, source: Node) -> tuple[list[Weight], list[Node]]` | Run Dijkstra's algorithm with a radix heap. | Time: O((n + m) log C), where ``C`` is the maximum shortest-path distance. |
+| `zero_one_bfs_with_prev` | function | `zero_one_bfs_with_prev(graph: Graph, source: Node) -> tuple[list[Weight], list[Node]]` | Find shortest paths for edge weights zero or one, with predecessors. | Time: O(n + m), including validation of all edge weights. |
+| `zero_one_bfs` | function | `zero_one_bfs(graph: Graph, source: Node) -> list[Weight]` | Return distances for a graph whose edge weights are zero or one. | Time: O(n + m) |
 | `simplify_graph` | function | `simplify_graph(graph: Graph) -> Graph` | Remove self-loops and merge parallel edges by minimum weight. | Time: ``O(n + m)`` |
 | `dijkstra` | function | `dijkstra(graph: Graph, source: Node) -> list[Weight]` | Return shortest distances from ``source`` using Dijkstra's algorithm. | Time: O((n + m) log n) |
 | `radix_dijkstra` | function | `radix_dijkstra(graph: Graph, source: Node) -> list[Weight]` | Return shortest distances from ``source`` using radix-heap Dijkstra. | Time: O((n + m) log C), where ``C`` is the maximum shortest-path distance. |
