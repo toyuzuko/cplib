@@ -90,6 +90,7 @@ from cplib.graph.planarity import (
     planar_embedding,
     planar_faces,
 )
+from cplib.graph.project_selection import MaximumWeightClosureResult, maximum_weight_closure
 from cplib.graph.reachability import (
     NodeGroupingResult,
     OfflineDagReachability,
@@ -103,6 +104,8 @@ from cplib.graph.reachability import (
 from cplib.graph.scheduling import optimal_scheduling_on_dag, optimal_scheduling_on_tree
 from cplib.graph.shortest import (
     ShortestPathResult,
+    zero_one_bfs,
+    zero_one_bfs_with_prev,
     bellman_ford,
     bfs,
     dijkstra,
@@ -179,6 +182,10 @@ __all__ = [
     'radix_dijkstra',
     'radix_dijkstra_with_prev',
     'bfs',
+    'zero_one_bfs',
+    'zero_one_bfs_with_prev',
+    'MaximumWeightClosureResult',
+    'maximum_weight_closure',
     'bellman_ford',
     'ShortestPathResult',
     'shortest_path',

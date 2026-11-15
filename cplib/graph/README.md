@@ -280,3 +280,16 @@ from cplib.graph import EulerTourTree, HeavyLightDecomposition, LinkCutTree, Sta
 | `EulerianTrailResult` | class | `EulerianTrailResult(...)` | Result of an Eulerian trail query. | Space: ``O(n + m)`` for the reported trail. |
 | `eulerian_trail` | function | `eulerian_trail(graph: Graph) -> EulerianTrailResult` | Find one Eulerian trail using Hierholzer's algorithm. | Time: ``O(n + m)`` |
 | `k_shortest_walk` | function | `k_shortest_walk(graph: Graph, source: Node, target: Node, k: int) -> list[Weight]` | Return the first ``k`` shortest walk lengths from ``source`` to ``target``. | Time: ``O((n + m) log n + k log k)`` |
+
+### Binary-weight paths and project selection
+
+- `zero_one_bfs(graph, source)` and `zero_one_bfs_with_prev(graph, source)` in
+  `shortest` run in `O(n + m)` time for weights zero or one. Every edge is
+  validated, including unreachable edges. Distances and predecessors follow the
+  Dijkstra conventions. Call these explicitly; `shortest_path` dispatch is unchanged.
+- `maximum_weight_closure(profits, implications)` in `project_selection` returns
+  `MaximumWeightClosureResult(profit, selected)`. `(u, v)` means selecting `u`
+  requires `v`; negative integer profits are costs. It builds a fresh Dinic network
+  and recovers the chosen set from its minimum cut. Cyclic dependencies are allowed,
+  there is no fixed integer bound, and tied selections are unspecified.
+  Time: `O((n + 2)^2 (n + m))`; space: `O(n + m)`.

@@ -102,6 +102,91 @@ def radix_dijkstra_with_prev(graph: Graph, source: Node) -> tuple[list[Weight], 
     return dst, prev
 
 
+def zero_one_bfs_with_prev(graph: Graph, source: Node) -> tuple[list[Weight], list[Node]]:
+    """Find shortest paths for edge weights zero or one, with predecessors.
+
+    Args:
+        graph: Directed or undirected graph with all weights in ``{0, 1}``.
+        source: Source vertex.
+
+    Returns:
+        Distances and predecessor vertices. Unreachable distances are
+        ``Graph.dst_inf``; source and unreachable predecessors are ``-1``.
+        Ties may choose a different predecessor tree from Dijkstra.
+
+    Raises:
+        IndexError: If the source is outside ``[0, graph.n)``.
+        ValueError: If any edge, including an unreachable edge, has another weight.
+
+    Notes:
+        Select this function explicitly when weights are binary. The automatic
+        ``shortest_path`` dispatch is unchanged and does not scan for this case.
+
+    Time Complexity:
+        O(n + m), including validation of all edge weights.
+
+    Space Complexity:
+        O(n + m), including queued distance candidates.
+
+    Examples:
+        >>> g = Graph(3, is_directed=True)
+        >>> g.add_edge(0, 1, 1)
+        >>> g.add_edge(0, 2, 0)
+        >>> g.add_edge(2, 1, 0)
+        >>> zero_one_bfs_with_prev(g, 0)
+        ([0, 0, 0], [-1, 2, 0])
+    """
+    if not 0 <= source < graph.n:
+        raise IndexError('source must be within [0, graph.n)')
+    if any(w != 0 and w != 1 for w in graph.wt):
+        raise ValueError('0-1 BFS requires edge weights zero or one')
+    dst = [Graph.dst_inf] * graph.n
+    prev = [Node(-1)] * graph.n
+    dst[source] = Weight(0)
+    queue: deque[tuple[Weight, Node]] = deque([(Weight(0), source)])
+    while queue:
+        d, u = queue.popleft()
+        if d != dst[u]:
+            continue
+        for v, i in graph.graph[u]:
+            w = graph.wt[i]
+            nd = Weight(d + w)
+            if nd < dst[v]:
+                dst[v] = nd
+                prev[v] = u
+                if w == 0:
+                    queue.appendleft((nd, v))
+                else:
+                    queue.append((nd, v))
+    return dst, prev
+
+
+def zero_one_bfs(graph: Graph, source: Node) -> list[Weight]:
+    """Return distances for a graph whose edge weights are zero or one.
+
+    Uses :func:`zero_one_bfs_with_prev`, with the same validation and distance
+    sentinels. Select explicitly; ``shortest_path`` keeps its existing dispatch.
+
+    Args:
+        graph: Directed or undirected graph with all weights in ``{0, 1}``.
+        source: Source vertex.
+
+    Returns:
+        Shortest distances, with ``Graph.dst_inf`` for unreachable vertices.
+
+    Raises:
+        IndexError: If the source is outside ``[0, graph.n)``.
+        ValueError: If any edge weight is not zero or one.
+
+    Time Complexity:
+        O(n + m)
+
+    Space Complexity:
+        O(n + m)
+    """
+    return zero_one_bfs_with_prev(graph, source)[0]
+
+
 def _bfs(graph: Graph, source: Node) -> tuple[list[Weight], list[Node]]:
     """
     Run BFS treating every edge as cost ``1``.
