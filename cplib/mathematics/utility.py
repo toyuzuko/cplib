@@ -159,3 +159,42 @@ def generate_quotient(n: int) -> Iterator[tuple[int, int, int]]:
         l = n // (q + 1)
         yield q, l + 1, r + 1
         r = l
+
+
+def floor_sum(n: int, m: int, a: int, b: int) -> int:
+    """Return sum((a * i + b) // m for i in range(n)).
+
+    Args:
+        n: Number of terms; must be nonnegative.
+        m: Positive divisor.
+        a: Integer slope, including negative values.
+        b: Integer intercept, including negative values.
+
+    Raises:
+        ValueError: If n < 0 or m <= 0.
+
+    Examples:
+        >>> floor_sum(4, 10, 6, 3)
+        3
+        >>> floor_sum(3, 5, -2, -1)
+        -3
+
+    Time Complexity:
+        O(log(m + 1)) integer operations, excluding operand bit complexity.
+
+    Space Complexity:
+        O(1) auxiliary integers.
+    """
+    if n < 0 or m <= 0:
+        raise ValueError('n must be nonnegative and m must be positive')
+    answer = 0
+    while True:
+        slope, a = divmod(a, m)
+        intercept, b = divmod(b, m)
+        answer += slope * n * (n - 1) // 2 + intercept * n
+        height = a * n + b
+        if height < m:
+            return answer
+        # Count lattice points by horizontal instead of vertical slices.
+        n, b = divmod(height, m)
+        m, a = a, m
