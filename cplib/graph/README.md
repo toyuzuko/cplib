@@ -172,6 +172,13 @@ from cplib.graph import EulerTourTree, HeavyLightDecomposition, LinkCutTree, Sta
 | `planar_faces` | function | `planar_faces(embedding: PlanarEmbeddingResult) -> PlanarFacesResult` | Enumerate all faces, merging component exteriors into outer face zero. | Time: O(n + m). |
 | `planar_dual` | function | `planar_dual(embedding: PlanarEmbeddingResult) -> Graph` | Build the weighted planar dual, preserving original edge IDs. | Time: O(n + m). |
 
+### `project_selection.py`
+
+| API | Kind | Signature | Summary | Complexity |
+| --- | --- | --- | --- | --- |
+| `MaximumWeightClosureResult` | class | `MaximumWeightClosureResult(...)` | Optimal project selection. | Space: O(n) |
+| `maximum_weight_closure` | function | `maximum_weight_closure(profits: Sequence[int], implications: Sequence[tuple[Node, Node]]) -> Ma…` | Maximize selected integer profits subject to hard implications. | Time: O((n + 2)**2 * (n + m)), using Dinic maximum flow. |
+
 ### `reachability.py`
 
 | API | Kind | Signature | Summary | Complexity |
@@ -199,6 +206,8 @@ from cplib.graph import EulerTourTree, HeavyLightDecomposition, LinkCutTree, Sta
 | --- | --- | --- | --- | --- |
 | `dijkstra_with_prev` | function | `dijkstra_with_prev(graph: Graph, source: Node) -> tuple[list[Weight], list[Node]]` | Run Dijkstra's algorithm and keep predecessor information. | Time: ``O((n + m) log n)`` |
 | `radix_dijkstra_with_prev` | function | `radix_dijkstra_with_prev(graph: Graph, source: Node) -> tuple[list[Weight], list[Node]]` | Run Dijkstra's algorithm with a radix heap. | Time: O((n + m) log C), where ``C`` is the maximum shortest-path distance. |
+| `zero_one_bfs_with_prev` | function | `zero_one_bfs_with_prev(graph: Graph, source: Node) -> tuple[list[Weight], list[Node]]` | Find shortest paths for edge weights zero or one, with predecessors. | Time: O(n + m), including validation of all edge weights. |
+| `zero_one_bfs` | function | `zero_one_bfs(graph: Graph, source: Node) -> list[Weight]` | Return distances for a graph whose edge weights are zero or one. | Time: O(n + m) |
 | `simplify_graph` | function | `simplify_graph(graph: Graph) -> Graph` | Remove self-loops and merge parallel edges by minimum weight. | Time: ``O(n + m)`` |
 | `dijkstra` | function | `dijkstra(graph: Graph, source: Node) -> list[Weight]` | Return shortest distances from ``source`` using Dijkstra's algorithm. | Time: O((n + m) log n) |
 | `radix_dijkstra` | function | `radix_dijkstra(graph: Graph, source: Node) -> list[Weight]` | Return shortest distances from ``source`` using radix-heap Dijkstra. | Time: O((n + m) log C), where ``C`` is the maximum shortest-path distance. |
@@ -280,16 +289,3 @@ from cplib.graph import EulerTourTree, HeavyLightDecomposition, LinkCutTree, Sta
 | `EulerianTrailResult` | class | `EulerianTrailResult(...)` | Result of an Eulerian trail query. | Space: ``O(n + m)`` for the reported trail. |
 | `eulerian_trail` | function | `eulerian_trail(graph: Graph) -> EulerianTrailResult` | Find one Eulerian trail using Hierholzer's algorithm. | Time: ``O(n + m)`` |
 | `k_shortest_walk` | function | `k_shortest_walk(graph: Graph, source: Node, target: Node, k: int) -> list[Weight]` | Return the first ``k`` shortest walk lengths from ``source`` to ``target``. | Time: ``O((n + m) log n + k log k)`` |
-
-### Binary-weight paths and project selection
-
-- `zero_one_bfs(graph, source)` and `zero_one_bfs_with_prev(graph, source)` in
-  `shortest` run in `O(n + m)` time for weights zero or one. Every edge is
-  validated, including unreachable edges. Distances and predecessors follow the
-  Dijkstra conventions. Call these explicitly; `shortest_path` dispatch is unchanged.
-- `maximum_weight_closure(profits, implications)` in `project_selection` returns
-  `MaximumWeightClosureResult(profit, selected)`. `(u, v)` means selecting `u`
-  requires `v`; negative integer profits are costs. It builds a fresh Dinic network
-  and recovers the chosen set from its minimum cut. Cyclic dependencies are allowed,
-  there is no fixed integer bound, and tied selections are unspecified.
-  Time: `O((n + 2)^2 (n + m))`; space: `O(n + m)`.

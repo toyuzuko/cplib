@@ -199,3 +199,10 @@
 | `clamp` | function | `clamp(x: int, a: int, b: int) -> int` | Clamp an arbitrary integer to the inclusive interval [a, b]. | Time: O(1) |
 | `xorshift64` | function | `xorshift64(state: int) -> int` | Advance a 64-bit xorshift generator by one step. | Time: ``O(1)``. |
 | `generate_quotient` | function | `generate_quotient(n: int) -> Iterator[tuple[int, int, int]]` | Generates all distinct quotients of floor(n/i) for i in range [1, n]. | Time: ``O(sqrt(n))`` |
+| `floor_sum` | function | `floor_sum(n: int, m: int, a: int, b: int) -> int` | Return sum((a * i + b) // m for i in range(n)). | Time: O(log(m + 1)) integer operations, excluding operand bit complexity. |
+
+### `xor_basis.py`
+
+| API | Kind | Signature | Summary | Complexity |
+| --- | --- | --- | --- | --- |
+| `XorBasis` | class | `XorBasis(values: Iterable[int] = ())` | Maintain the span of nonnegative integers under XOR. | Space: O(r) integers, each at most the maximum input bit length. |

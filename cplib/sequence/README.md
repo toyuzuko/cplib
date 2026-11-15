@@ -10,6 +10,7 @@
 | --- | --- | --- | --- | --- |
 | `edit_distance` | function | `edit_distance(s: Sequence[object], t: Sequence[object], insert_cost: int = 1, delete_cost: int…` | Return the weighted edit distance between two sequences. | Time: O(nm), where ``n = len(s)`` and ``m = len(t)``. |
 | `longest_common_subsequence_length` | function | `longest_common_subsequence_length(s: Sequence[object], t: Sequence[object]) -> int` | Return the length of the longest common subsequence of two sequences. | Time: O(nm), where ``n = len(s)`` and ``m = len(t)``. |
+| `longest_common_subsequence_length_bitset` | function | `longest_common_subsequence_length_bitset(s: Sequence[Hashable], t: Sequence[Hashable]) -> int` | Return an LCS length using bit-parallel DP for hashable elements. | Time: O((n + m) ceil(m / w)) word operations including mask construction, with expected constant-time hashing/equality; ``m`` is the shorter length, ``n`` the longer length, and ``w`` the integer digit width. |
 
 ### `cartesian.py`
 

@@ -1,5 +1,6 @@
 import random
 import unittest
+from fractions import Fraction
 
 from cplib.algorithm import min_plus_convolution_convex_convex, subset_sum_bitset
 from cplib.sequence import longest_common_subsequence_length, longest_common_subsequence_length_bitset
@@ -62,6 +63,10 @@ class BitparallelDPContractsTest(unittest.TestCase):
     def test_convex_boundaries(self) -> None:
         self.assertEqual(min_plus_convolution_convex_convex([10**100], [-10**100]), [0])
         self.assertEqual(min_plus_convolution_convex_convex([0, 0, 0], [0, 0]), [0] * 4)
+        a = [Fraction(1, 3), Fraction(1, 4), Fraction(2, 3)]
+        b = [Fraction(0), Fraction(1, 2)]
+        self.assertEqual(min_plus_convolution_convex_convex(a, b),
+                         [Fraction(1, 3), Fraction(1, 4), Fraction(2, 3), Fraction(7, 6)])
         for a, b in (([0, 2, 1], []), ([], [0, 2, 1]), ([0], [0, 1, 1])):
             with self.assertRaises(ValueError):
                 min_plus_convolution_convex_convex(a, b)

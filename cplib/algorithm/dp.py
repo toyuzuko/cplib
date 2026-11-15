@@ -3,6 +3,16 @@
 from __future__ import annotations
 
 from collections.abc import Sequence
+from typing import Protocol, Self, TypeVar
+
+
+class _OrderedAdditive(Protocol):
+    def __add__(self, other: Self, /) -> Self: ...
+    def __sub__(self, other: Self, /) -> Self: ...
+    def __lt__(self, other: Self, /) -> bool: ...
+
+
+ConvexValueT = TypeVar('ConvexValueT', bound=_OrderedAdditive)
 
 
 def fibonacci_number(n: int, f0: int = 0, f1: int = 1) -> int:
@@ -188,9 +198,9 @@ def optimal_binary_search_tree_cost(p: Sequence[float], q: Sequence[float]) -> f
     return dp[0][n]
 
 
-def min_plus_convolution_convex_convex(a: Sequence[int], b: Sequence[int]) -> list[int]:
+def min_plus_convolution_convex_convex(a: Sequence[ConvexValueT], b: Sequence[ConvexValueT]) -> list[ConvexValueT]:
     """
-    Compute min-plus convolution of two discrete convex integer sequences.
+    Compute min-plus convolution of two discrete convex sequences.
 
     Args:
         a: Sequence with nondecreasing adjacent differences.
@@ -207,20 +217,24 @@ def min_plus_convolution_convex_convex(a: Sequence[int], b: Sequence[int]) -> li
     Notes:
         Merge the sorted adjacent differences. Taking the smallest ``k`` slopes
         respects each sequence's prefix constraint, yielding the minimum cost
-        at index ``k``. This integer specialization avoids floating-point slope
-        comparisons and accumulation error.
+        at index ``k``. Values must support addition, subtraction, and a
+        translation-invariant order. Use exact values, such as integers or
+        fractions, to avoid round-off in comparisons of adjacent slopes.
 
     Examples:
         >>> min_plus_convolution_convex_convex([3, 1, 2], [0, 0, 4])
         [3, 1, 1, 2, 6]
         >>> min_plus_convolution_convex_convex([], [5])
         []
+        >>> from fractions import Fraction
+        >>> min_plus_convolution_convex_convex([Fraction(0), Fraction(1, 2)], [Fraction(1, 3)])
+        [Fraction(1, 3), Fraction(5, 6)]
 
     Time Complexity:
-        O(n + m) integer arithmetic/comparison operations.
+        O(n + m) arithmetic/comparison operations.
 
     Space Complexity:
-        O(n + m) for the result; O(1) auxiliary integer variables.
+        O(n + m) for the result; O(1) auxiliary values.
     """
     for values in (a, b):
         for i in range(2, len(values)):
@@ -233,7 +247,7 @@ def min_plus_convolution_convex_convex(a: Sequence[int], b: Sequence[int]) -> li
     while i < len(a) and j < len(b):
         da = a[i] - a[i - 1]
         db = b[j] - b[j - 1]
-        if da <= db:
+        if not db < da:
             result.append(result[-1] + da)
             i += 1
         else:

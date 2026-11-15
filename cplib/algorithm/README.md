@@ -22,6 +22,7 @@
 | `minimum_coin_count` | function | `minimum_coin_count(coins: Sequence[int], amount: int) -> int` | Return the minimum number of unlimited coins needed to make ``amount``. | Time: O(amount * n), where ``n`` is ``len(coins)``. |
 | `matrix_chain_multiplication_cost` | function | `matrix_chain_multiplication_cost(dimensions: Sequence[tuple[int, int]]) -> int` | Return the minimum scalar multiplication count for a matrix chain. | Time: O(n^3), where ``n = len(dimensions)``. |
 | `optimal_binary_search_tree_cost` | function | `optimal_binary_search_tree_cost(p: Sequence[float], q: Sequence[float]) -> float` | Return the minimum expected search cost of an optimal binary search tree. | Time: O(n^2), where ``n = len(p)``. |
+| `min_plus_convolution_convex_convex` | function | `min_plus_convolution_convex_convex(a: Sequence[ConvexValueT], b: Sequence[ConvexValueT]) -> lis…` | Compute min-plus convolution of two discrete convex sequences. | Time: O(n + m) arithmetic/comparison operations. |
 
 ### `greedy.py`
 
@@ -44,6 +45,7 @@
 | `KnapsackResult` | class | `KnapsackResult(...)` | Result of a knapsack query with reconstruction. | Space: ``O(n)``, where ``n`` is the number of original items. |
 | `bounded_knapsack_small_values` | function | `bounded_knapsack_small_values(items: Sequence[KnapsackItem], capacity: int, *, window: int \| No…` | Return the bounded-knapsack optimum for small item values. | Time: O(n log n + n * (window + 1) + sum(item.value)) for retained items, where ``n`` is ``len(items)``. Integer arithmetic is treated as O(1). |
 | `knapsack` | function | `knapsack(items: Sequence[KnapsackItem], capacity: int, *, restore: bool = False, mitm_threshold…` | Return the maximum obtainable value under a weight limit. | Time: Meet-in-the-middle branch: ``O(m 2^(m/2))`` where ``m`` is the expanded 0/1 item count. DP branches take ``O(m * min(capacity, total_value))``. |
+| `subset_sum_bitset` | function | `subset_sum_bitset(values: Sequence[int], limit: int) -> int` | Encode achievable 0/1 subset sums up to ``limit`` in a Python integer. | Time: O(n ceil((L + 1) / w)) machine-word operations, where ``L = min(limit, sum(values))`` and ``w`` is the integer digit width. |
 
 ### `mo.py`
 
