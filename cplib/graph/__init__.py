@@ -1,6 +1,7 @@
 """Public graph and tree algorithms; implementations live in feature modules."""
 
 from cplib.graph.base import Capacity, Cost, Edge, EdgeNum, Node, Weight
+from cplib.graph.binary_submodular_minimizer import BinarySubmodularMinimizer, BinarySubmodularResult
 from cplib.graph.connectivity import (
     HDLTOnlineDynamicConnectivity,
     OnlineDynamicConnectivity,
@@ -184,6 +185,8 @@ __all__ = [
     'bfs',
     'zero_one_bfs',
     'zero_one_bfs_with_prev',
+    'BinarySubmodularMinimizer',
+    'BinarySubmodularResult',
     'MaximumWeightClosureResult',
     'maximum_weight_closure',
     'bellman_ford',

@@ -37,6 +37,13 @@ from cplib.graph import EulerTourTree, HeavyLightDecomposition, LinkCutTree, Sta
 | API | Kind | Signature | Summary | Complexity |
 | --- | --- | --- | --- | --- |
 
+### `binary_submodular_minimizer.py`
+
+| API | Kind | Signature | Summary | Complexity |
+| --- | --- | --- | --- | --- |
+| `BinarySubmodularResult` | class | `BinarySubmodularResult(...)` | Minimum cost and one attaining assignment of bits. | Space: O(n) |
+| `BinarySubmodularMinimizer` | class | `BinarySubmodularMinimizer(n: int)` | Minimize a sum of finite signed integer costs over binary variables. | Space: O(n + m), where m is the number of pairwise terms. |
+
 ### `connectivity.py`
 
 | API | Kind | Signature | Summary | Complexity |
