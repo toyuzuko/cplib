@@ -4,10 +4,9 @@ from cplib.algorithm.dp import (
     matrix_chain_multiplication_cost,
     min_plus_convolution_convex_convex,
     minimum_coin_count,
+    monotone_minima,
     optimal_binary_search_tree_cost,
 )
-# Load the compatibility module before binding the same-named public function.
-from cplib.algorithm.monotone_minima import monotone_minima
 from cplib.algorithm.greedy import fractional_knapsack, greedy_coin_count, huffman_encoded_length, max_non_overlapping_intervals, maximum_profit
 from cplib.algorithm.knapsack import subset_sum_bitset, KnapsackItem, KnapsackResult, SubsetSumResult, bounded_knapsack_small_values, knapsack, maximum_subset_sum_at_most_meet_in_the_middle, subset_sum_meet_in_the_middle
 from cplib.sequence.alignment import edit_distance, longest_common_subsequence_length, longest_common_subsequence_length_bitset

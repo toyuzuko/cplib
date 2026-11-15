@@ -37,11 +37,6 @@ from cplib.graph import EulerTourTree, HeavyLightDecomposition, LinkCutTree, Sta
 | API | Kind | Signature | Summary | Complexity |
 | --- | --- | --- | --- | --- |
 
-### `binary_submodular_minimizer.py`
-
-| API | Kind | Signature | Summary | Complexity |
-| --- | --- | --- | --- | --- |
-
 ### `connectivity.py`
 
 | API | Kind | Signature | Summary | Complexity |
@@ -180,11 +175,6 @@ from cplib.graph import EulerTourTree, HeavyLightDecomposition, LinkCutTree, Sta
 | `planar_embedding` | function | `planar_embedding(graph: Graph) -> PlanarEmbeddingResult \| None` | Construct a planar embedding of an undirected graph, if one exists. | Time: O(n + m). |
 | `planar_faces` | function | `planar_faces(embedding: PlanarEmbeddingResult) -> PlanarFacesResult` | Enumerate all faces, merging component exteriors into outer face zero. | Time: O(n + m). |
 | `planar_dual` | function | `planar_dual(embedding: PlanarEmbeddingResult) -> Graph` | Build the weighted planar dual, preserving original edge IDs. | Time: O(n + m). |
-
-### `project_selection.py`
-
-| API | Kind | Signature | Summary | Complexity |
-| --- | --- | --- | --- | --- |
 
 ### `reachability.py`
 

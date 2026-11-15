@@ -4,11 +4,6 @@
 
 ## Modules
 
-### `aliens.py`
-
-| API | Kind | Signature | Summary | Complexity |
-| --- | --- | --- | --- | --- |
-
 ### `bisearch.py`
 
 | API | Kind | Signature | Summary | Complexity |
@@ -62,11 +57,6 @@
 | `Mo` | class | `Mo(n: int, block_size: int \| None = None)` | Standard Mo's algorithm scheduler for half-open range queries. | Space: ``O(q)`` |
 | `HilbertMo` | class | `HilbertMo(n: int)` | Mo's algorithm variant that sorts queries by Hilbert order. | Space: ``O(q)`` |
 | `RollbackMo` | class | `RollbackMo(n: int, block_size: int \| None = None)` | Rollback Mo's algorithm for data structures without deletions. | Space: ``O(q)`` plus the underlying rollback structure |
-
-### `monotone_minima.py`
-
-| API | Kind | Signature | Summary | Complexity |
-| --- | --- | --- | --- | --- |
 
 ### `sat.py`
 

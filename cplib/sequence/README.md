@@ -33,11 +33,6 @@
 | --- | --- | --- | --- | --- |
 | `largest_rectangle_area` | function | `largest_rectangle_area(histogram: Sequence[int]) -> int` | Return the largest rectangle area in a histogram. | Time: O(n), where ``n`` is ``len(histogram)``. |
 
-### `nonadjacent.py`
-
-| API | Kind | Signature | Summary | Complexity |
-| --- | --- | --- | --- | --- |
-
 ### `permutation.py`
 
 | API | Kind | Signature | Summary | Complexity |
