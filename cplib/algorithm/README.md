@@ -8,7 +8,6 @@
 
 | API | Kind | Signature | Summary | Complexity |
 | --- | --- | --- | --- | --- |
-| `aliens_minimize` | function | `aliens_minimize(target_count: int, penalty_low: int, penalty_high: int, solve: Callable[[int],…` | Recover an exact-count minimum from a penalized solver (Alien Trick). | Time: O(1 + log(penalty_high - penalty_low + 1)) callback evaluations and arithmetic operations, excluding integer bit complexity. |
 
 ### `bisearch.py`
 
@@ -29,6 +28,8 @@
 | `matrix_chain_multiplication_cost` | function | `matrix_chain_multiplication_cost(dimensions: Sequence[tuple[int, int]]) -> int` | Return the minimum scalar multiplication count for a matrix chain. | Time: O(n^3), where ``n = len(dimensions)``. |
 | `optimal_binary_search_tree_cost` | function | `optimal_binary_search_tree_cost(p: Sequence[float], q: Sequence[float]) -> float` | Return the minimum expected search cost of an optimal binary search tree. | Time: O(n^2), where ``n = len(p)``. |
 | `min_plus_convolution_convex_convex` | function | `min_plus_convolution_convex_convex(a: Sequence[ConvexValueT], b: Sequence[ConvexValueT]) -> lis…` | Compute min-plus convolution of two discrete convex sequences. | Time: O(n + m) arithmetic/comparison operations. |
+| `aliens_minimize` | function | `aliens_minimize(target_count: int, penalty_low: int, penalty_high: int, solve: Callable[[int],…` | Recover an exact-count minimum from a penalized solver (Alien Trick). | Time: O(1 + log(penalty_high - penalty_low + 1)) callback evaluations and arithmetic operations, excluding integer bit complexity. |
+| `monotone_minima` | function | `monotone_minima(n_rows: int, n_cols: int, value: Callable[[int, int], KeyT]) -> list[int]` | Find the leftmost minimum column of every row of a monotone matrix. | Time: O(n_rows + n_cols * log(n_rows + 1)) callback evaluations and comparisons, assuming each costs O(1). |
 
 ### `greedy.py`
 
@@ -66,7 +67,6 @@
 
 | API | Kind | Signature | Summary | Complexity |
 | --- | --- | --- | --- | --- |
-| `monotone_minima` | function | `monotone_minima(n_rows: int, n_cols: int, value: Callable[[int, int], KeyT]) -> list[int]` | Find the leftmost minimum column of every row of a monotone matrix. | Time: O(n_rows + n_cols * log(n_rows + 1)) callback evaluations and comparisons, assuming each costs O(1). |
 
 ### `sat.py`
 

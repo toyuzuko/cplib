@@ -1,7 +1,6 @@
 """Public graph and tree algorithms; implementations live in feature modules."""
 
 from cplib.graph.base import Capacity, Cost, Edge, EdgeNum, Node, Weight
-from cplib.graph.binary_submodular_minimizer import BinarySubmodularMinimizer, BinarySubmodularResult
 from cplib.graph.connectivity import (
     HDLTOnlineDynamicConnectivity,
     OnlineDynamicConnectivity,
@@ -72,12 +71,16 @@ from cplib.graph.matching import (
     MinimumWeightPerfectMatching,
 )
 from cplib.graph.optimization import (
+    BinarySubmodularMinimizer,
+    BinarySubmodularResult,
+    MaximumWeightClosureResult,
     MinimumSteinerTreeResult,
     TravelingSalesmanResult,
     bitonic_tsp,
     bounded_vertex_cover,
     maximum_clique,
     maximum_independent_set,
+    maximum_weight_closure,
     minimum_steiner_tree,
     minimum_vertex_cover,
     traveling_salesman_problem,
@@ -91,7 +94,6 @@ from cplib.graph.planarity import (
     planar_embedding,
     planar_faces,
 )
-from cplib.graph.project_selection import MaximumWeightClosureResult, maximum_weight_closure
 from cplib.graph.reachability import (
     NodeGroupingResult,
     OfflineDagReachability,

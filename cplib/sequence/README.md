@@ -37,8 +37,6 @@
 
 | API | Kind | Signature | Summary | Complexity |
 | --- | --- | --- | --- | --- |
-| `minimum_non_adjacent_sums` | function | `minimum_non_adjacent_sums(values: Sequence[int]) -> list[int]` | Return minimum sums for every feasible non-adjacent selection size. | Time: O(n log(n + 1)), where ``n`` is ``len(values)``. |
-| `maximum_non_adjacent_sums` | function | `maximum_non_adjacent_sums(values: Sequence[int]) -> list[int]` | Return maximum sums for every feasible non-adjacent selection size. | Time: O(n log(n + 1)), where ``n`` is ``len(values)``. |
 
 ### `permutation.py`
 
@@ -76,6 +74,8 @@
 | --- | --- | --- | --- | --- |
 | `longest_increasing_subsequence` | function | `longest_increasing_subsequence(arr: list[int], return_idx: bool = False) -> list[int]` | Return one longest increasing subsequence. | Time: ``O(n log n)`` |
 | `number_of_subsequences` | function | `number_of_subsequences(arr: list[int], mod: int) -> int` | Count distinct subsequences modulo ``mod``. | Time: ``O(n)`` |
+| `minimum_non_adjacent_sums` | function | `minimum_non_adjacent_sums(values: Sequence[int]) -> list[int]` | Return minimum sums for every feasible non-adjacent selection size. | Time: O(n log(n + 1)), where ``n`` is ``len(values)``. |
+| `maximum_non_adjacent_sums` | function | `maximum_non_adjacent_sums(values: Sequence[int]) -> list[int]` | Return maximum sums for every feasible non-adjacent selection size. | Time: O(n log(n + 1)), where ``n`` is ``len(values)``. |
 
 ### `window.py`
 

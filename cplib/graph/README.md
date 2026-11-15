@@ -41,8 +41,6 @@ from cplib.graph import EulerTourTree, HeavyLightDecomposition, LinkCutTree, Sta
 
 | API | Kind | Signature | Summary | Complexity |
 | --- | --- | --- | --- | --- |
-| `BinarySubmodularResult` | class | `BinarySubmodularResult(...)` | Minimum cost and one attaining assignment of bits. | Space: O(n) |
-| `BinarySubmodularMinimizer` | class | `BinarySubmodularMinimizer(n: int)` | Minimize a sum of finite signed integer costs over binary variables. | Space: O(n + m), where m is the number of pairwise terms. |
 
 ### `connectivity.py`
 
@@ -167,6 +165,10 @@ from cplib.graph import EulerTourTree, HeavyLightDecomposition, LinkCutTree, Sta
 | `bitonic_tsp` | function | `bitonic_tsp(points: list[tuple[float, float]]) -> float` | Return the length of a shortest bitonic tour through planar points. | Time: O(n^2), where ``n`` is ``len(points)``. |
 | `TravelingSalesmanResult` | class | `TravelingSalesmanResult(...)` | Result of one traveling salesman query. | Space: ``O(n)`` |
 | `traveling_salesman_problem` | function | `traveling_salesman_problem(graph: Graph) -> TravelingSalesmanResult` | Solve the traveling salesman problem starting and ending at vertex ``0``. | Time: ``O(m + n^2 2^n)`` |
+| `MaximumWeightClosureResult` | class | `MaximumWeightClosureResult(...)` | Optimal project selection. | Space: O(n) |
+| `maximum_weight_closure` | function | `maximum_weight_closure(profits: Sequence[int], implications: Sequence[tuple[Node, Node]]) -> Ma…` | Maximize selected integer profits subject to hard implications. | Time: O((n + 2)**2 * (n + m)), using Dinic maximum flow. |
+| `BinarySubmodularResult` | class | `BinarySubmodularResult(...)` | Minimum cost and one attaining assignment of bits. | Space: O(n) |
+| `BinarySubmodularMinimizer` | class | `BinarySubmodularMinimizer(n: int)` | Minimize a sum of finite signed integer costs over binary variables. | Space: O(n + m), where m is the number of pairwise terms. |
 
 ### `planarity.py`
 
@@ -183,8 +185,6 @@ from cplib.graph import EulerTourTree, HeavyLightDecomposition, LinkCutTree, Sta
 
 | API | Kind | Signature | Summary | Complexity |
 | --- | --- | --- | --- | --- |
-| `MaximumWeightClosureResult` | class | `MaximumWeightClosureResult(...)` | Optimal project selection. | Space: O(n) |
-| `maximum_weight_closure` | function | `maximum_weight_closure(profits: Sequence[int], implications: Sequence[tuple[Node, Node]]) -> Ma…` | Maximize selected integer profits subject to hard implications. | Time: O((n + 2)**2 * (n + m)), using Dinic maximum flow. |
 
 ### `reachability.py`
 

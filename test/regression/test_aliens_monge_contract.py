@@ -5,7 +5,7 @@ from itertools import combinations
 import random
 import unittest
 
-from cplib.algorithm.aliens import aliens_minimize
+from cplib.algorithm.dp import aliens_minimize
 
 
 def center_oracle(weights: Sequence[int]) -> Callable[[int], tuple[int, int]]:

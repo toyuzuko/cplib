@@ -1,6 +1,6 @@
 # verification-helper: PROBLEM https://atcoder.jp/contests/abc462/tasks/abc462_f
 
-from cplib.algorithm.aliens import aliens_minimize
+from cplib.algorithm.dp import aliens_minimize
 from cplib.tools.fastio import FastIO
 
 

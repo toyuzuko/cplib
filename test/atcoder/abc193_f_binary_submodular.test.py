@@ -1,7 +1,7 @@
 # verification-helper: PROBLEM https://atcoder.jp/contests/abc193/tasks/abc193_f
 
 from cplib.graph.base import Node
-from cplib.graph.binary_submodular_minimizer import BinarySubmodularMinimizer
+from cplib.graph.optimization import BinarySubmodularMinimizer
 from cplib.tools.fastio import FastIO
 
 

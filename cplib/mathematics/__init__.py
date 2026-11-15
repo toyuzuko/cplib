@@ -12,6 +12,7 @@ from cplib.mathematics.arithmetic import (
 )
 from cplib.mathematics.bigint import BigInt, BigIntHex
 from cplib.mathematics.bit import (
+    XorBasis,
     bit_reverse,
     filllower,
     fillupper,
@@ -120,7 +121,6 @@ from cplib.mathematics.utility import (
     xorshift64,
 )
 
-from cplib.mathematics.xor_basis import XorBasis
 
 __all__ = [
     'BigInt',
