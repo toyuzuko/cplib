@@ -1,4 +1,4 @@
-from cplib.sequence.alignment import edit_distance, longest_common_subsequence_length
+from cplib.sequence.alignment import edit_distance, longest_common_subsequence_length, longest_common_subsequence_length_bitset
 from cplib.sequence.cartesian import cartesian_tree
 from cplib.sequence.grid import count_rectangles_in_grid, count_squares_in_grid, largest_rectangle_area_in_grid, largest_square_area_in_grid
 from cplib.sequence.histogram import largest_rectangle_area
@@ -27,6 +27,7 @@ __all__ = [
     'largest_rectangle_area_in_grid',
     'largest_square_area_in_grid',
     'longest_common_subsequence_length',
+    'longest_common_subsequence_length_bitset',
     'longest_increasing_subsequence',
     'minimum_subarray_length_with_sum_at_least_nonnegative',
     'minimum_window_covering_multiset',

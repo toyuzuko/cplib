@@ -186,3 +186,63 @@ def optimal_binary_search_tree_cost(p: Sequence[float], q: Sequence[float]) -> f
             dp[left][right] = best
             opt[left][right] = best_root
     return dp[0][n]
+
+
+def min_plus_convolution_convex_convex(a: Sequence[int], b: Sequence[int]) -> list[int]:
+    """
+    Compute min-plus convolution of two discrete convex integer sequences.
+
+    Args:
+        a: Sequence with nondecreasing adjacent differences.
+        b: Sequence with nondecreasing adjacent differences.
+
+    Returns:
+        ``c[k] = min(a[i] + b[j] for i + j == k)`` over valid indices,
+        or an empty list if either input is empty. Negative values and equal
+        slopes are supported. This is not a general min-plus convolution.
+
+    Raises:
+        ValueError: If either sequence is not convex, even if the other is empty.
+
+    Notes:
+        Merge the sorted adjacent differences. Taking the smallest ``k`` slopes
+        respects each sequence's prefix constraint, yielding the minimum cost
+        at index ``k``. This integer specialization avoids floating-point slope
+        comparisons and accumulation error.
+
+    Examples:
+        >>> min_plus_convolution_convex_convex([3, 1, 2], [0, 0, 4])
+        [3, 1, 1, 2, 6]
+        >>> min_plus_convolution_convex_convex([], [5])
+        []
+
+    Time Complexity:
+        O(n + m) integer arithmetic/comparison operations.
+
+    Space Complexity:
+        O(n + m) for the result; O(1) auxiliary integer variables.
+    """
+    for values in (a, b):
+        for i in range(2, len(values)):
+            if values[i] - values[i - 1] < values[i - 1] - values[i - 2]:
+                raise ValueError('inputs must be convex')
+    if not a or not b:
+        return []
+    result = [a[0] + b[0]]
+    i = j = 1
+    while i < len(a) and j < len(b):
+        da = a[i] - a[i - 1]
+        db = b[j] - b[j - 1]
+        if da <= db:
+            result.append(result[-1] + da)
+            i += 1
+        else:
+            result.append(result[-1] + db)
+            j += 1
+    while i < len(a):
+        result.append(result[-1] + a[i] - a[i - 1])
+        i += 1
+    while j < len(b):
+        result.append(result[-1] + b[j] - b[j - 1])
+        j += 1
+    return result

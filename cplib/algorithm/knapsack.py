@@ -542,3 +542,48 @@ def knapsack(items: Sequence[KnapsackItem], capacity: int, *, restore: bool = Fa
     if capacity <= total_value:
         return base_value + _knapsack_weight_dp(expanded, capacity)
     return base_value + _knapsack_value_dp(expanded, capacity)
+
+
+def subset_sum_bitset(values: Sequence[int], limit: int) -> int:
+    """
+    Encode achievable 0/1 subset sums up to ``limit`` in a Python integer.
+
+    Args:
+        values: Non-negative integer values; each occurrence may be used once.
+        limit: Inclusive non-negative upper bound on represented sums.
+
+    Returns:
+        A bit mask whose bit ``s`` is set iff a subset sums to ``s``.
+        Bit zero is always set, representing the empty subset. This does not
+        restore the selected indices; use the meet-in-the-middle routine when
+        restoration or negative input values are needed.
+
+    Raises:
+        ValueError: If ``limit`` or any input value is negative.
+
+    Examples:
+        >>> bits = subset_sum_bitset([2, 3, 3], 6)
+        >>> [s for s in range(7) if (bits >> s) & 1]
+        [0, 2, 3, 5, 6]
+
+    Time Complexity:
+        O(n ceil((L + 1) / w)) machine-word operations, where
+        ``L = min(limit, sum(values))`` and ``w`` is the integer digit width.
+
+    Space Complexity:
+        O(ceil((L + 1) / w)) machine words, excluding the input.
+    """
+    if limit < 0:
+        raise ValueError('limit must be non-negative')
+    total = 0
+    for value in values:
+        if value < 0:
+            raise ValueError('values must be non-negative')
+        total += value
+    limit = min(limit, total)
+    mask = (1 << (limit + 1)) - 1
+    reachable = 1
+    for value in values:
+        if 0 < value <= limit:
+            reachable |= (reachable << value) & mask
+    return reachable
