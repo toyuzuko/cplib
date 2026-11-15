@@ -1,3 +1,4 @@
+from cplib.algorithm.monotone_minima import monotone_minima
 from cplib.algorithm.dp import min_plus_convolution_convex_convex, fibonacci_number, matrix_chain_multiplication_cost, minimum_coin_count, optimal_binary_search_tree_cost
 from cplib.algorithm.greedy import fractional_knapsack, greedy_coin_count, huffman_encoded_length, max_non_overlapping_intervals, maximum_profit
 from cplib.algorithm.knapsack import subset_sum_bitset, KnapsackItem, KnapsackResult, SubsetSumResult, bounded_knapsack_small_values, knapsack, maximum_subset_sum_at_most_meet_in_the_middle, subset_sum_meet_in_the_middle
@@ -43,6 +44,7 @@ from cplib.sequence.window import (
 )
 
 __all__ = [
+    'monotone_minima',
     "min_plus_convolution_convex_convex",
     "subset_sum_bitset",
     "longest_common_subsequence_length_bitset",

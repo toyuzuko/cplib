@@ -56,6 +56,12 @@
 | `HilbertMo` | class | `HilbertMo(n: int)` | Mo's algorithm variant that sorts queries by Hilbert order. | Space: ``O(q)`` |
 | `RollbackMo` | class | `RollbackMo(n: int, block_size: int \| None = None)` | Rollback Mo's algorithm for data structures without deletions. | Space: ``O(q)`` plus the underlying rollback structure |
 
+### `monotone_minima.py`
+
+| API | Kind | Signature | Summary | Complexity |
+| --- | --- | --- | --- | --- |
+| `monotone_minima` | function | `monotone_minima(n_rows: int, n_cols: int, value: Callable[[int, int], KeyT]) -> list[int]` | Find the leftmost minimum column of every row of a monotone matrix. | Time: O(n_rows + n_cols * log(n_rows + 1)) callback evaluations and comparisons, assuming each costs O(1). |
+
 ### `sat.py`
 
 | API | Kind | Signature | Summary | Complexity |
