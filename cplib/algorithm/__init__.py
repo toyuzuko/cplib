@@ -6,6 +6,7 @@ from cplib.sequence.alignment import edit_distance, longest_common_subsequence_l
 from cplib.sequence.grid import count_rectangles_in_grid, count_squares_in_grid, largest_rectangle_area_in_grid, largest_square_area_in_grid
 from cplib.sequence.histogram import largest_rectangle_area
 from cplib.sequence.subseq import longest_increasing_subsequence, number_of_subsequences
+from cplib.algorithm.aliens import aliens_minimize
 from cplib.algorithm.bisearch import ParallelBinarySearch, binary_search, float_binary_search, bisect_left, bisect_right
 from cplib.algorithm.mo import HilbertMo, Mo, RollbackMo, hilbert_order
 from cplib.algorithm.sat import (
@@ -78,6 +79,7 @@ __all__ = [
     "Mo",
     "HilbertMo",
     "RollbackMo",
+    'aliens_minimize',
     "ParallelBinarySearch",
     "binary_search",
     "float_binary_search",

@@ -4,6 +4,12 @@
 
 ## Modules
 
+### `aliens.py`
+
+| API | Kind | Signature | Summary | Complexity |
+| --- | --- | --- | --- | --- |
+| `aliens_minimize` | function | `aliens_minimize(target_count: int, penalty_low: int, penalty_high: int, solve: Callable[[int],…` | Recover an exact-count minimum from a penalized solver (Alien Trick). | Time: O(1 + log(penalty_high - penalty_low + 1)) callback evaluations and arithmetic operations, excluding integer bit complexity. |
+
 ### `bisearch.py`
 
 | API | Kind | Signature | Summary | Complexity |
